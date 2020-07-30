@@ -97,9 +97,9 @@ func setup() {
     
     setupFunnel()
     
-    addTarget(at: Point(x: 373, y: 469))
+    addTarget(at: Point(x: 372, y: 469))
     
-    addTarget(at: Point(x:455, y:137))
+    addTarget(at: Point(x:388, y:678))
     
     resetGame()
     
@@ -112,12 +112,31 @@ func dropBall() {
     for barrier in barriers {
         barrier.isDraggable = false
     }
+    
+    for target in targets {
+        target.fillColor = .red
+    }
 }
 
 func ballExitedScene() {
+    var hitTargets = 0
+    for target in targets {
+        if target.fillColor == .green {
+            hitTargets += 1
+        }
+    }
+    
+    if hitTargets == targets.count {
+        scene.presentAlert(text: "You won!", completion: alertDismissed)
+    }
+    
     for barrier in barriers {
         barrier.isDraggable = true
     }
+}
+
+func alertDismissed() {
+    
 }
 
 func resetGame() {
